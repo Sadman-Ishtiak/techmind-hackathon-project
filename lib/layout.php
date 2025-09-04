@@ -15,7 +15,7 @@ $year = date('Y');
 <body class="flex flex-col min-h-screen">
     <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="/" class="text-3xl font-bold text-gray-800">JKKNIU Marketplace</a>
+            <a href="./" class="text-3xl font-bold text-gray-800">JKKNIU Marketplace</a>
             
             <div class="flex items-center space-x-6">
                 <!-- Desktop Nav -->
