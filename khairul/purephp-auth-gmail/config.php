@@ -1,7 +1,7 @@
 <?php
 // ===== Database =====
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'semester');
+define('DB_NAME', 'Hackathon');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
