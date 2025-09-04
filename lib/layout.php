@@ -20,14 +20,14 @@ $year = date('Y');
             <div class="flex items-center space-x-6">
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center space-x-6">
-                    <a href="/auctions.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Auctions</a>
-                    <a href="/buynow.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Buy Now</a>
-                    <a href="/stores.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Stores</a>
-                    <a href="/categories.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Categories</a>
+                    <a href="./auctions.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Auctions</a>
+                    <a href="./buynow.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Buy Now</a>
+                    <a href="./stores.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Stores</a>
+                    <a href="./categories.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Categories</a>
                 </nav>
 
                 <!-- Desktop Search -->
-                <form action="/search.php" method="GET" class="hidden md:flex">
+                <form action="./search.php" method="GET" class="hidden md:flex">
                     <input 
                         type="text" 
                         name="q" 
@@ -59,11 +59,11 @@ $year = date('Y');
 
                         <div id="user-menu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
                             <a href="./dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
-                            <a href="/settings.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                            <a href="/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
+                            <a href="./settings.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                            <a href="./logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
                         </div>
                     <?php else: ?>
-                        <a href="/login.php" id="login-btn" 
+                        <a href="./login.php" id="login-btn" 
                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">
                             Log In
                         </a>
@@ -83,21 +83,21 @@ $year = date('Y');
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t mt-2">
             <nav class="flex flex-col space-y-2 p-4">
-                <a href="/auctions.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Auctions</a>
-                <a href="/buynow.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Buy Now</a>
-                <a href="/stores.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Stores</a>
-                <a href="/categories.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Categories</a>
-                
+                <a href="./auctions.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Auctions</a>
+                <a href="./buynow.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Buy Now</a>
+                <a href="./stores.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Stores</a>
+                <a href="./categories.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Categories</a>
+
                 <?php if (!empty($_SESSION['user'])): ?>
                     <a href="./dashboard.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Dashboard</a>
-                    <a href="/settings.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Settings</a>
-                    <a href="/logout.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Log Out</a>
+                    <a href="./settings.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Settings</a>
+                    <a href="./logout.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Log Out</a>
                 <?php else: ?>
-                    <a href="/login.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Log In</a>
-                    <a href="/register.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Register</a>
+                    <a href="./login.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Log In</a>
+                    <a href="./register.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Register</a>
                 <?php endif; ?>
 
-                <form action="/search.php" method="GET" class="flex mt-3">
+                <form action="./search.php" method="GET" class="flex mt-3">
                     <input 
                         type="text" 
                         name="q" 
@@ -147,9 +147,9 @@ $year = date('Y');
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
             <p>&copy; <?= $year ?> JKKNIU Marketplace. All rights reserved.</p>
             <div class="space-x-4 mt-2 sm:mt-0">
-                <a href="/about.php" class="hover:text-gray-900">About</a>
-                <a href="/contact.php" class="hover:text-gray-900">Contact</a>
-                <a href="/privacy.php" class="hover:text-gray-900">Privacy Policy</a>
+                <a href="./about.php" class="hover:text-gray-900">About</a>
+                <a href="./contact.php" class="hover:text-gray-900">Contact</a>
+                <a href="./privacy.php" class="hover:text-gray-900">Privacy Policy</a>
             </div>
         </div>
     </footer>
