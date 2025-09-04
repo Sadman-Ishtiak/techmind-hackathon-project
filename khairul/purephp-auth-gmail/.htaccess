@@ -1,0 +1,2 @@
+# If using Apache + PHP, you can drop this folder into htdocs and visit BASE_URL.
+# No URL rewriting is required; files are directly accessed.
