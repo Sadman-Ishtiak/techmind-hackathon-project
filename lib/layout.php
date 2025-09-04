@@ -1,7 +1,9 @@
 <?php
-// You can define defaults for variables
+// layout.php
+// Define defaults
 $title = $title ?? "JKKNIU Marketplace";
 $year = date('Y');
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +11,6 @@ $year = date('Y');
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= htmlspecialchars($title) ?></title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -42,10 +43,10 @@ $year = date('Y');
 
                 <!-- Auth Panel -->
                 <div id="auth-panel" class="relative flex items-center">
-                    <?php if (!empty($_SESSION['user'])): ?>
+                    <?php if (!empty($_SESSION['user_id'])): ?>
                         <div class="flex items-center">
                             <span class="text-gray-800 font-medium mr-2 hidden md:block">
-                                Hi, <?= htmlspecialchars($_SESSION['user']['name']) ?>
+                                Hi, <?= htmlspecialchars($_SESSION['user_name']) ?>
                             </span>
                             <button id="user-menu-button" class="flex items-center space-x-1 focus:outline-none">
                                 <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
@@ -58,12 +59,21 @@ $year = date('Y');
                         </div>
 
                         <div id="user-menu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                            <a href="./dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                            <?php
+                                // Role-based dashboard links
+                                if ($_SESSION['user_role'] === 'admin') {
+                                    echo '<a href="./admin_dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>';
+                                } elseif ($_SESSION['user_role'] === 'store_owner') {
+                                    echo '<a href="./owner_dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Store</a>';
+                                } else {
+                                    echo '<a href="./dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>';
+                                }
+                            ?>
                             <a href="./settings.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                             <a href="./logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log Out</a>
                         </div>
                     <?php else: ?>
-                        <a href="./login.php" id="login-btn" 
+                        <a href="./login.php" 
                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">
                             Log In
                         </a>
@@ -88,8 +98,16 @@ $year = date('Y');
                 <a href="./stores.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Stores</a>
                 <a href="./categories.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Categories</a>
 
-                <?php if (!empty($_SESSION['user'])): ?>
-                    <a href="./dashboard.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Dashboard</a>
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <?php
+                        if ($_SESSION['user_role'] === 'admin') {
+                            echo '<a href="./admin_dashboard.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Admin Dashboard</a>';
+                        } elseif ($_SESSION['user_role'] === 'store_owner') {
+                            echo '<a href="./owner_dashboard.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">My Store</a>';
+                        } else {
+                            echo '<a href="./dashboard.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Dashboard</a>';
+                        }
+                    ?>
                     <a href="./settings.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Settings</a>
                     <a href="./logout.php" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Log Out</a>
                 <?php else: ?>
@@ -118,7 +136,7 @@ $year = date('Y');
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
-        
+
         // Dropdown toggle
         document.addEventListener('DOMContentLoaded', function() {
             const userMenuBtn = document.getElementById('user-menu-button');
