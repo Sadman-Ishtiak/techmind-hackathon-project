@@ -31,12 +31,21 @@ ob_start();
         <?php if ($products->num_rows > 0): ?>
             <?php while ($p = $products->fetch_assoc()): ?>
                 <?php
+                // print_r($p);
                 // Fetch first image for this product
-                $img_stmt = $conn->prepare("SELECT image_url FROM product_images WHERE product_id = ? LIMIT 1");
+                $img_stmt = $conn->prepare("
+                    SELECT i.image 
+                    FROM images i 
+                    JOIN product_images pi ON pi.image_id = i.id 
+                    WHERE pi.product_id = ? LIMIT 1
+                ");
                 $img_stmt->bind_param("i", $p['id']);
                 $img_stmt->execute();
                 $img_res = $img_stmt->get_result()->fetch_assoc();
-                $image_url = $img_res['image_url'] ?? '';
+                $image_data = $img_res['image'] ?? '';
+
+                $image_url = $image_data ? 'data:image/png;base64,' . $image_data : '';
+
                 ?>
                 <div class="border rounded shadow p-4 bg-white">
                     <?php if (!empty($image_url)): ?>

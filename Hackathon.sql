@@ -1,32 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Sep 04, 2025 at 11:00 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `Hackathon`
---
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `auctions`
---
-
 CREATE TABLE `auctions` (
   `id` int(10) UNSIGNED NOT NULL,
   `seller_id` int(10) UNSIGNED NOT NULL,
@@ -41,61 +17,35 @@ CREATE TABLE `auctions` (
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `auction_images`
---
-
 CREATE TABLE `auction_images` (
   `id` int(10) UNSIGNED NOT NULL,
   `auction_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `categories`
---
-
 CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `categories`
---
-
 INSERT INTO `categories` (`name`) VALUES
 ('Electronics');
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `images`
---
-
 CREATE TABLE `images` (
   `id` int(10) UNSIGNED NOT NULL,
   `image` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `images`
---
-
 INSERT INTO `images` (`id`, `image`) VALUES
 (1, 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgUBAc9u7WkAAAAASUVORK5CYII=');
 INSERT INTO `images` (`id`, `image`) VALUES
 (2, 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgUBAc9u7WkAAAAASUVORK5CYII=');
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `products`
---
-
 CREATE TABLE `products` (
   `id` int(10) UNSIGNED NOT NULL,
   `store_id` int(10) UNSIGNED NOT NULL,
@@ -354,19 +304,11 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
 -- AUTO_INCREMENT for table `auctions`
---
 ALTER TABLE `auctions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
 -- AUTO_INCREMENT for table `auction_images`
---
 ALTER TABLE `auction_images`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
