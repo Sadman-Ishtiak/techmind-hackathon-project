@@ -11,10 +11,9 @@ $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['user_role'];
 
 // Fetch user name for navbar
-$stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$user_data = $stmt->get_result()->fetch_assoc();
+$stmt = $conn->prepare("SELECT name FROM users WHERE id = ?");
+$stmt->execute([$user_id]);
+$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 $_SESSION['user_name'] = $user_data['name'];
 
 ob_start();
@@ -24,10 +23,9 @@ ob_start();
 
 <?php if ($user_role === 'store_owner'): 
     // Fetch store info
-    $stmt = $conn->prepare("SELECT * FROM stores WHERE owner_id=?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $store = $stmt->get_result()->fetch_assoc();
+    $stmt = $conn->prepare("SELECT * FROM stores WHERE owner_id = ?");
+    $stmt->execute([$user_id]);
+    $store = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($store):
         $store_id = $store['id'];
@@ -47,12 +45,11 @@ ob_start();
                             LEFT JOIN images i ON i.id = pi.image_id
                             WHERE p.store_id = ?
                             GROUP BY p.id");
-    $stmt->bind_param("i", $store_id);
-    $stmt->execute();
-    $products = $stmt->get_result();
+    $stmt->execute([$store_id]);
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($products->num_rows > 0):
-        while ($p = $products->fetch_assoc()):
+    if ($products):
+        foreach ($products as $p):
             $img_src = $p['main_image'] ? "data:image/jpeg;base64," . base64_encode($p['main_image']) : "";
 ?>
     <div class="border rounded shadow p-4 bg-white">
@@ -70,7 +67,7 @@ ob_start();
         </div>
     </div>
 <?php
-        endwhile;
+        endforeach;
     else:
         echo "<p class='text-gray-500 col-span-3'>No products yet.</p>";
     endif;
@@ -86,10 +83,9 @@ ob_start();
 
 <?php elseif ($user_role === 'user'): 
     // Normal user
-    $stmt = $conn->prepare("SELECT name, email FROM users WHERE id=?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $user = $stmt->get_result()->fetch_assoc();
+    $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 <div class="p-6 border rounded shadow bg-white mb-6">
     <h2 class="text-2xl font-semibold mb-2">Profile Info</h2>
@@ -102,25 +98,22 @@ ob_start();
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <?php
 // Ensure cart exists for this user
-$stmt = $conn->prepare("SELECT cart_id FROM carts WHERE user_id=?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$cart = $stmt->get_result()->fetch_assoc();
+$stmt = $conn->prepare("SELECT cart_id FROM carts WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$cart) {
     // Create cart if none exists
     $stmt = $conn->prepare("INSERT INTO carts (user_id) VALUES (?)");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $cart_id = $stmt->insert_id;
+    $stmt->execute([$user_id]);
+    $cart_id = $conn->lastInsertId();
 } else {
     $cart_id = $cart['cart_id'];
 }
 
-
 // fetch cart items with product details and main image
 $stmt = $conn->prepare("
-    SELECT ci.cart_item_id AS cart_id, ci.quantity, p.*, i.image AS main_image
+    SELECT ci.cart_item_id, ci.quantity, p.*, i.image AS main_image
     FROM carts c
     JOIN cart_items ci ON c.cart_id = ci.cart_id
     JOIN products p ON p.id = ci.product_id
@@ -129,12 +122,11 @@ $stmt = $conn->prepare("
     WHERE c.user_id = ?
     GROUP BY ci.cart_item_id
 ");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$cart_items = $stmt->get_result();
+$stmt->execute([$user_id]);
+$cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($cart_items->num_rows > 0):
-    while ($item = $cart_items->fetch_assoc()):
+if ($cart_items):
+    foreach ($cart_items as $item):
         $img_src = $item['main_image'] ? "data:image/jpeg;base64," . base64_encode($item['main_image']) : "";
 ?>
 <div class="border rounded shadow p-4 bg-white">
@@ -146,10 +138,10 @@ if ($cart_items->num_rows > 0):
     <h4 class="font-semibold text-lg"><?= htmlspecialchars($item['name']) ?></h4>
     <p>Price: $<?= $item['price'] ?></p>
     <p>Quantity: <?= $item['quantity'] ?></p>
-    <a href="remove_from_cart.php?id=<?= $item['cart_id'] ?>" class="text-red-600 hover:underline mt-2 inline-block">Remove</a>
+    <a href="remove_from_cart.php?id=<?= $item['cart_item_id'] ?>" class="text-red-600 hover:underline mt-2 inline-block">Remove</a>
 </div>
 <?php
-    endwhile;
+    endforeach;
 else:
     echo "<p class='text-gray-500 col-span-3'>Your cart is empty.</p>";
 endif;
@@ -162,3 +154,4 @@ endif;
 $content = ob_get_clean();
 $title = "User Dashboard";
 include './lib/layout.php';
+?>
