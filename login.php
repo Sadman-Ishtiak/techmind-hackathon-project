@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once './config.php'; // DB connection
+require_once './config.php'; // $conn is PDO
 
 $error = '';
 
@@ -11,14 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = "Please enter both email and password.";
     } else {
-        $stmt = $conn->prepare("SELECT id, name, password_hash, role FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // PDO uses named or positional placeholders
+        $stmt = $conn->prepare("SELECT id, name, password_hash, role FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-
+        if ($user) {
             if (password_verify($password, $user['password_hash'])) {
                 // Set session variables
                 $_SESSION['user_id'] = $user['id'];
