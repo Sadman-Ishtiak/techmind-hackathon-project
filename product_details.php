@@ -10,13 +10,17 @@ if (!isset($_GET['product_id']) || !is_numeric($_GET['product_id'])) {
 $product_id = (int)$_GET['product_id'];
 
 // Fetch product info
-$product_sql = "SELECT p.*, s.name AS store_name, u.name AS owner_name
-                FROM products p
-                JOIN stores s ON p.store_id = s.id
-                JOIN users u ON s.owner_id = u.id
-                WHERE p.id = $product_id";
+$stmt = $conn->prepare("
+    SELECT p.*, s.name AS store_name, u.name AS owner_name
+    FROM products p
+    JOIN stores s ON p.store_id = s.id
+    JOIN users u ON s.owner_id = u.id
+    WHERE p.id = ?
+");
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$product_result = $stmt->get_result();
 
-$product_result = $conn->query($product_sql);
 
 if ($product_result->num_rows == 0) {
     die("Product not found.");
