@@ -3,7 +3,7 @@
 // Define defaults
 $title = $title ?? "JKKNIU Marketplace";
 $year = date('Y');
-session_start();
+// session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">

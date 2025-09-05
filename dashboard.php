@@ -101,13 +101,34 @@ ob_start();
 <h3 class="text-xl font-semibold mb-4">My Cart</h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <?php
-$stmt = $conn->prepare("SELECT c.id AS cart_id, c.quantity, p.*, i.image AS main_image
-                        FROM cart c
-                        JOIN products p ON p.id = c.product_id
-                        LEFT JOIN product_images pi ON pi.product_id = p.id
-                        LEFT JOIN images i ON i.id = pi.image_id
-                        WHERE c.user_id = ?
-                        GROUP BY c.id");
+// Ensure cart exists for this user
+$stmt = $conn->prepare("SELECT cart_id FROM carts WHERE user_id=?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$cart = $stmt->get_result()->fetch_assoc();
+
+if (!$cart) {
+    // Create cart if none exists
+    $stmt = $conn->prepare("INSERT INTO carts (user_id) VALUES (?)");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $cart_id = $stmt->insert_id;
+} else {
+    $cart_id = $cart['cart_id'];
+}
+
+
+// fetch cart items with product details and main image
+$stmt = $conn->prepare("
+    SELECT ci.cart_item_id AS cart_id, ci.quantity, p.*, i.image AS main_image
+    FROM carts c
+    JOIN cart_items ci ON c.cart_id = ci.cart_id
+    JOIN products p ON p.id = ci.product_id
+    LEFT JOIN product_images pi ON pi.product_id = p.id
+    LEFT JOIN images i ON i.id = pi.image_id
+    WHERE c.user_id = ?
+    GROUP BY ci.cart_item_id
+");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_items = $stmt->get_result();
