@@ -1,7 +1,13 @@
 <?php
 session_start();
-require_once './config.php'; // DB connection
+// require_once './config.php'; // DB connection
 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Hackathon"; // Your DB name
+
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Validate store_id
 if (!isset($_GET['store_id']) || !is_numeric($_GET['store_id'])) {
     die("Invalid store ID.");
