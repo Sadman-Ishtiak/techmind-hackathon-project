@@ -2,12 +2,13 @@ IF DATABASE hackathon EXISTS DROP DATABASE hackathon;
 CREATE DATABASE hackathon;
 USE hackathon;
 
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 07:49 AM
+-- Generation Time: Sep 06, 2025 at 10:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,6 +46,15 @@ CREATE TABLE `auctions` (
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `auctions`
+--
+
+INSERT INTO `auctions` (`id`, `seller_id`, `minimum_price`, `current_holder_id`, `current_price`, `ends_at`, `product_name`, `category_name`, `subcategory_name`, `subsubcategory_name`, `description`) VALUES
+(5, 7, 99.00, NULL, 0.00, '2025-12-12 23:59:59', 'table fan', NULL, NULL, NULL, 'fuuuuuuuuuuaaaaaaaaaaaaaaaaaaaaaaaaaaaa shaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa baaaaataaaaaaaaaaaassssssshhhhhhhhhhhh'),
+(10, 7, 99.00, NULL, 0.00, '2025-12-12 23:59:59', 'table fan', NULL, NULL, NULL, 'fuuuuuuuuuuaaaaaaaaaaaaaaaaaaaaaaaaaaaa shaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa baaaaataaaaaaaaaaaassssssshhhhhhhhhhhh'),
+(11, 7, 1.00, 7, 10.00, '2025-12-31 23:59:59', 'Marufer matha', NULL, NULL, NULL, 'ganga khaya beshi valo nai');
+
 -- --------------------------------------------------------
 
 --
@@ -56,6 +66,31 @@ CREATE TABLE `auction_images` (
   `auction_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bids`
+--
+
+CREATE TABLE `bids` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `auction_id` int(10) UNSIGNED NOT NULL,
+  `bidder_id` int(10) UNSIGNED NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bids`
+--
+
+INSERT INTO `bids` (`id`, `auction_id`, `bidder_id`, `amount`, `created_at`) VALUES
+(1, 11, 7, 2.00, '2025-09-06 06:57:35'),
+(2, 11, 7, 3.00, '2025-09-06 06:57:48'),
+(3, 11, 7, 4.00, '2025-09-06 06:57:49'),
+(4, 11, 7, 5.00, '2025-09-06 06:59:24'),
+(5, 11, 7, 10.00, '2025-09-06 06:59:30');
 
 -- --------------------------------------------------------
 
@@ -160,8 +195,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `store_id`, `name`, `price`, `description`, `category_name`, `subcategory_name`, `subsubcategory_name`, `stock`, `review`) VALUES
-(4, 3, 'bsa', 20.00, 'afaf', 'Electronics', 'Smartphones', NULL, 20, 0),
-(5, 3, 'aafeafd', 1.00, '11', 'Electronics', 'Smartphones', NULL, 11, 0);
+(4, 3, 'bsa', 20.00, 'afaf', 'Electronics', 'Smartphones', NULL, 17, 0),
+(5, 3, 'aafeafd', 1.00, '11', 'Electronics', 'Smartphones', NULL, 10, 0);
 
 -- --------------------------------------------------------
 
@@ -284,6 +319,18 @@ CREATE TABLE `transactions` (
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `store_id`, `product_id`, `buyer_id`, `cost`, `quantity`, `total`, `time`) VALUES
+(1, 3, 4, 7, 20.00, 1, 20.00, '2025-09-06 13:48:10'),
+(2, 3, 4, 7, 20.00, 1, 20.00, '2025-09-06 14:03:21'),
+(3, 3, 5, 7, 1.00, 1, 1.00, '2025-09-06 14:03:21'),
+(4, 3, 4, 7, 20.00, 1, 20.00, '2025-09-06 14:04:08'),
+(5, 3, 4, 7, 20.00, 1, 20.00, '2025-09-06 14:04:16'),
+(6, 3, 4, 7, 20.00, 1, 20.00, '2025-09-06 14:10:31');
+
 -- --------------------------------------------------------
 
 --
@@ -309,9 +356,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `email_verified`, `verification_token`, `created_at`, `updated_at`, `role`, `store_request`) VALUES
 (3, 'Store Owner', 'owner@example.com', 'hashedpassword', 1, NULL, '2025-09-04 18:53:06', '2025-09-04 18:53:06', 'store_owner', 0),
-(5, 'Md. Khairul Islam', 'khairulislamtushar11@gmail.com', '$2y$10$/wes5xUphACJCltDAiThTOTSdGbOXabaDT6ua6X9QkQWVggXD4hAK', 0, NULL, '2025-09-04 19:04:58', '2025-09-04 20:51:39', 'store_owner', 0),
-(6, 'Md. Khairul Islam', 'Ki6uiPar1na@proton.me', '$2y$10$R7Pg3ZRam/y51b9I52AdB.YYdD/yz.abeXtMea/EDuUvauCvmp6d2', 0, NULL, '2025-09-04 19:43:50', '2025-09-04 20:05:33', 'admin', 0),
-(7, 'Sadman', 'sadmanishtiak1@gmail.com', '$2y$10$Bnqlr8g/BO..HGkB19MH6u1X185ni6jt./HN2H3AmiBoDAj92NQC2', 0, NULL, '2025-09-05 06:49:44', '2025-09-05 13:02:28', 'user', 0);
+(5, 'Md. Khairul Islam', 'khairulislamtushar11@gmail.com', '$2y$10$/wes5xUphACJCltDAiThTOTSdGbOXabaDT6ua6X9QkQWVggXD4hAK', 1, NULL, '2025-09-04 19:04:58', '2025-09-06 08:25:41', 'store_owner', 0),
+(6, 'Md. Khairul Islam', 'Ki6uiPar1na@proton.me', '$2y$10$R7Pg3ZRam/y51b9I52AdB.YYdD/yz.abeXtMea/EDuUvauCvmp6d2', 1, NULL, '2025-09-04 19:43:50', '2025-09-06 08:26:19', 'admin', 0),
+(7, 'Sadman Ishtiak', 'sadmanishtiak1@gmail.com', '$2y$10$Bnqlr8g/BO..HGkB19MH6u1X185ni6jt./HN2H3AmiBoDAj92NQC2', 1, NULL, '2025-09-05 06:49:44', '2025-09-06 08:26:21', 'user', 0);
 
 --
 -- Indexes for dumped tables
@@ -335,6 +382,14 @@ ALTER TABLE `auction_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `auction_id` (`auction_id`),
   ADD KEY `image_id` (`image_id`);
+
+--
+-- Indexes for table `bids`
+--
+ALTER TABLE `bids`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `auction_id` (`auction_id`),
+  ADD KEY `bidder_id` (`bidder_id`);
 
 --
 -- Indexes for table `carts`
@@ -442,13 +497,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `auctions`
 --
 ALTER TABLE `auctions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `auction_images`
 --
 ALTER TABLE `auction_images`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bids`
+--
+ALTER TABLE `bids`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `carts`
@@ -460,7 +521,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `images`
@@ -502,7 +563,7 @@ ALTER TABLE `stores`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -530,6 +591,13 @@ ALTER TABLE `auctions`
 ALTER TABLE `auction_images`
   ADD CONSTRAINT `auction_images_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `auction_images_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `bids`
+--
+ALTER TABLE `bids`
+  ADD CONSTRAINT `bids_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bids_ibfk_2` FOREIGN KEY (`bidder_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `carts`
