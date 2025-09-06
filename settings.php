@@ -87,6 +87,7 @@ if ($_SESSION['user_role'] === 'user') {
                     <th class="px-4 py-2 text-left">End Date</th>
                     <th class="px-4 py-2 text-left">Status</th>
                     <th class="px-4 py-2 text-left">Time Left</th>
+                    <th class="px-4 py-2 text-left">Current bidholder</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,7 +114,19 @@ if ($_SESSION['user_role'] === 'user') {
                                 <td class='px-4 py-2'>" . htmlspecialchars($auction['ends_at']) . "</td>
                                 <td class='px-4 py-2'>$status</td>
                                 <td class='px-4 py-2'><span class='countdown' data-end='" . $auction['ends_at'] . "'></span></td>
-                              </tr>";
+                                <td class='px-4 py-2'>";
+                                // Fetch current highest bidder
+                                $sql = "SELECT b.bidder_id, u.name FROM bids b JOIN users u ON b.bidder_id = u.id WHERE b.auction_id = " . $auction['id'] . " ORDER BY b.amount DESC LIMIT 1";
+                                $result = mysqli_query($conn, $sql);
+                                if ($result) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "" . htmlspecialchars($row['name']) . " (User ID: " . htmlspecialchars($row['bidder_id']). ")";
+                                    }
+                                } else {
+                                    echo "No bids yet";
+                                }
+                                
+                              echo "</td></tr>";
                     }
                 } else {
                     echo "<tr><td colspan='6' class='px-4 py-2 text-center text-gray-500'>No auction items found.</td></tr>";
