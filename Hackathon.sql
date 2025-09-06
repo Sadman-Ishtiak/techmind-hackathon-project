@@ -1,8 +1,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
--- Table structure for table `auctions`
 CREATE TABLE `auctions` (
   `id` int(10) UNSIGNED NOT NULL,
   `seller_id` int(10) UNSIGNED NOT NULL,
@@ -16,36 +14,39 @@ CREATE TABLE `auctions` (
   `subsubcategory_name` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Table structure for table `auction_images`
 CREATE TABLE `auction_images` (
   `id` int(10) UNSIGNED NOT NULL,
   `auction_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Table structure for table `categories`
+CREATE TABLE `carts` (
+  `cart_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 7, '2025-09-05 09:40:56', '2025-09-05 09:40:56');
+CREATE TABLE `cart_items` (
+  `cart_item_id` int(10) UNSIGNED NOT NULL,
+  `cart_id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `quantity` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dumping data for table `categories`
 INSERT INTO `categories` (`name`) VALUES
 ('Electronics');
-
--- Table structure for table `images`
 CREATE TABLE `images` (
   `id` int(10) UNSIGNED NOT NULL,
   `image` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dumping data for table `images`
 INSERT INTO `images` (`id`, `image`) VALUES
-(1, 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgUBAc9u7WkAAAAASUVORK5CYII=');
-INSERT INTO `images` (`id`, `image`) VALUES
+(1, 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgUBAc9u7WkAAAAASUVORK5CYII='),
 (2, 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgUBAc9u7WkAAAAASUVORK5CYII=');
-
--- Table structure for table `products`
 CREATE TABLE `products` (
   `id` int(10) UNSIGNED NOT NULL,
   `store_id` int(10) UNSIGNED NOT NULL,
@@ -58,25 +59,19 @@ CREATE TABLE `products` (
   `stock` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `review` float DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_images`
---
-
+INSERT INTO `products` (`id`, `store_id`, `name`, `price`, `description`, `category_name`, `subcategory_name`, `subsubcategory_name`, `stock`, `review`) VALUES
+(4, 3, 'bsa', 20.00, 'afaf', 'Electronics', 'Smartphones', NULL, 20, 0),
+(5, 3, 'aafeafd', 1.00, '11', 'Electronics', 'Smartphones', NULL, 11, 0);
 CREATE TABLE `product_images` (
   `id` int(10) UNSIGNED NOT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reviews`
---
-
+INSERT INTO `product_images` (`id`, `product_id`, `image_id`) VALUES
+(4, 4, 4),
+(5, 4, 5),
+(6, 4, 6),
+(7, 5, 7);
 CREATE TABLE `reviews` (
   `id` int(10) UNSIGNED NOT NULL,
   `buyer_id` int(10) UNSIGNED NOT NULL,
@@ -84,81 +79,31 @@ CREATE TABLE `reviews` (
   `rating` tinyint(3) UNSIGNED NOT NULL,
   `review` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `review_images`
---
-
 CREATE TABLE `review_images` (
   `id` int(10) UNSIGNED NOT NULL,
   `review_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stores`
---
-
 CREATE TABLE `stores` (
   `id` int(10) UNSIGNED NOT NULL,
   `owner_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `approved` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `stores`
---
-
 INSERT INTO `stores` (`id`, `owner_id`, `name`, `approved`) VALUES
-(3, 5, 'Khairul', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `subcategories`
---
-
+(3, 5, 'Khairul', 1);
 CREATE TABLE `subcategories` (
   `name` varchar(255) NOT NULL,
   `category_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `subcategories`
---
-
 INSERT INTO `subcategories` (`name`, `category_name`) VALUES
 ('Smartphones', 'Electronics');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `subsubcategories`
---
-
 CREATE TABLE `subsubcategories` (
   `name` varchar(255) NOT NULL,
   `subcategory_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `subsubcategories`
---
-
 INSERT INTO `subsubcategories` (`name`, `subcategory_name`) VALUES
 ('Android Phones', 'Smartphones');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transactions`
---
-
 CREATE TABLE `transactions` (
   `id` int(10) UNSIGNED NOT NULL,
   `store_id` int(10) UNSIGNED NOT NULL,
@@ -169,13 +114,6 @@ CREATE TABLE `transactions` (
   `total` decimal(10,2) NOT NULL,
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -188,23 +126,11 @@ CREATE TABLE `users` (
   `role` enum('admin','store_owner','user') NOT NULL DEFAULT 'user',
   `store_request` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=no request, 1=requested store'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `email_verified`, `verification_token`, `created_at`, `updated_at`, `role`, `store_request`) VALUES
 (3, 'Store Owner', 'owner@example.com', 'hashedpassword', 1, NULL, '2025-09-04 18:53:06', '2025-09-04 18:53:06', 'store_owner', 0),
 (5, 'Md. Khairul Islam', 'khairulislamtushar11@gmail.com', '$2y$10$/wes5xUphACJCltDAiThTOTSdGbOXabaDT6ua6X9QkQWVggXD4hAK', 0, NULL, '2025-09-04 19:04:58', '2025-09-04 20:51:39', 'store_owner', 0),
-(6, 'Md. Khairul Islam', 'Ki6uiPar1na@proton.me', '$2y$10$R7Pg3ZRam/y51b9I52AdB.YYdD/yz.abeXtMea/EDuUvauCvmp6d2', 0, NULL, '2025-09-04 19:43:50', '2025-09-04 20:05:33', 'admin', 0);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `auctions`
---
+(6, 'Md. Khairul Islam', 'Ki6uiPar1na@proton.me', '$2y$10$R7Pg3ZRam/y51b9I52AdB.YYdD/yz.abeXtMea/EDuUvauCvmp6d2', 0, NULL, '2025-09-04 19:43:50', '2025-09-04 20:05:33', 'admin', 0),
+(7, 'Sadman', 'sadmanishtiak1@gmail.com', '$2y$10$Bnqlr8g/BO..HGkB19MH6u1X185ni6jt./HN2H3AmiBoDAj92NQC2', 0, NULL, '2025-09-05 06:49:44', '2025-09-05 13:02:28', 'user', 0);
 ALTER TABLE `auctions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `seller_id` (`seller_id`),
@@ -212,255 +138,116 @@ ALTER TABLE `auctions`
   ADD KEY `category_name` (`category_name`),
   ADD KEY `subcategory_name` (`subcategory_name`),
   ADD KEY `subsubcategory_name` (`subsubcategory_name`);
-
---
--- Indexes for table `auction_images`
---
 ALTER TABLE `auction_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `auction_id` (`auction_id`),
   ADD KEY `image_id` (`image_id`);
-
---
--- Indexes for table `categories`
---
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `user_id` (`user_id`);
+ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`cart_item_id`),
+  ADD KEY `cart_id` (`cart_id`),
+  ADD KEY `product_id` (`product_id`);
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`name`);
-
---
--- Indexes for table `images`
---
 ALTER TABLE `images`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `products`
---
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `store_id` (`store_id`),
   ADD KEY `category_name` (`category_name`),
   ADD KEY `subcategory_name` (`subcategory_name`),
   ADD KEY `subsubcategory_name` (`subsubcategory_name`);
-
---
--- Indexes for table `product_images`
---
 ALTER TABLE `product_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `image_id` (`image_id`);
-
---
--- Indexes for table `reviews`
---
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `buyer_id` (`buyer_id`),
   ADD KEY `product_id` (`product_id`);
-
---
--- Indexes for table `review_images`
---
 ALTER TABLE `review_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `review_id` (`review_id`),
   ADD KEY `image_id` (`image_id`);
-
---
--- Indexes for table `stores`
---
 ALTER TABLE `stores`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner_id` (`owner_id`);
-
---
--- Indexes for table `subcategories`
---
 ALTER TABLE `subcategories`
   ADD PRIMARY KEY (`name`),
   ADD KEY `category_name` (`category_name`);
-
---
--- Indexes for table `subsubcategories`
---
 ALTER TABLE `subsubcategories`
   ADD PRIMARY KEY (`name`),
   ADD KEY `subcategory_name` (`subcategory_name`);
-
---
--- Indexes for table `transactions`
---
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `store_id` (`store_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `buyer_id` (`buyer_id`);
-
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
-
--- AUTO_INCREMENT for table `auctions`
 ALTER TABLE `auctions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
--- AUTO_INCREMENT for table `auction_images`
 ALTER TABLE `auction_images`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `images`
---
+ALTER TABLE `carts`
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `cart_items`
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `products`
---
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `product_images`
---
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `product_images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `reviews`
---
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 ALTER TABLE `reviews`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `review_images`
---
 ALTER TABLE `review_images`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `stores`
---
 ALTER TABLE `stores`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `transactions`
---
 ALTER TABLE `transactions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `auctions`
---
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 ALTER TABLE `auctions`
   ADD CONSTRAINT `auctions_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `auctions_ibfk_2` FOREIGN KEY (`current_holder_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `auctions_ibfk_3` FOREIGN KEY (`category_name`) REFERENCES `categories` (`name`),
   ADD CONSTRAINT `auctions_ibfk_4` FOREIGN KEY (`subcategory_name`) REFERENCES `subcategories` (`name`),
   ADD CONSTRAINT `auctions_ibfk_5` FOREIGN KEY (`subsubcategory_name`) REFERENCES `subsubcategories` (`name`);
-
---
--- Constraints for table `auction_images`
---
 ALTER TABLE `auction_images`
   ADD CONSTRAINT `auction_images_ibfk_1` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `auction_images_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `products`
---
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_name`) REFERENCES `categories` (`name`),
   ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`subcategory_name`) REFERENCES `subcategories` (`name`),
   ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`subsubcategory_name`) REFERENCES `subsubcategories` (`name`);
-
---
--- Constraints for table `product_images`
---
 ALTER TABLE `product_images`
   ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `product_images_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `reviews`
---
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
-
---
--- Constraints for table `review_images`
---
 ALTER TABLE `review_images`
   ADD CONSTRAINT `review_images_ibfk_1` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `review_images_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `stores`
---
 ALTER TABLE `stores`
   ADD CONSTRAINT `stores_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `subcategories`
---
 ALTER TABLE `subcategories`
   ADD CONSTRAINT `subcategories_ibfk_1` FOREIGN KEY (`category_name`) REFERENCES `categories` (`name`) ON DELETE CASCADE;
-
---
--- Constraints for table `subsubcategories`
---
 ALTER TABLE `subsubcategories`
   ADD CONSTRAINT `subsubcategories_ibfk_1` FOREIGN KEY (`subcategory_name`) REFERENCES `subcategories` (`name`) ON DELETE CASCADE;
-
---
--- Constraints for table `transactions`
---
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`),
   ADD CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- Carts Table: One cart per user
-CREATE TABLE `carts` (
-  cart_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id INT(10) UNSIGNED NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (cart_id),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Cart Items Table: Products in the cart
-CREATE TABLE `cart_items` (
-  cart_item_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  cart_id INT(10) UNSIGNED NOT NULL,
-  product_id INT(10) UNSIGNED NOT NULL,
-  quantity INT(10) UNSIGNED NOT NULL DEFAULT 1,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (cart_item_id),
-  FOREIGN KEY (cart_id) REFERENCES carts(cart_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
