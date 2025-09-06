@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             if (!empty($password)) {
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("UPDATE users SET name = :name, email = :email, password_hash = :password WHERE id = :id");
+                $stmt = $pdo->prepare("UPDATE users SET name = :name, email = :email, password_hash = :password WHERE id = :id");
                 $stmt->execute([
                     'name' => $name,
                     'email' => $email,
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'id' => $user_id
                 ]);
             } else {
-                $stmt = $conn->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
+                $stmt = $pdo->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
                 $stmt->execute([
                     'name' => $name,
                     'email' => $email,
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch current user data to prefill form
-$stmt = $conn->prepare("SELECT name, email FROM users WHERE id = :id");
+$stmt = $pdo->prepare("SELECT name, email FROM users WHERE id = :id");
 $stmt->execute(['id' => $user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

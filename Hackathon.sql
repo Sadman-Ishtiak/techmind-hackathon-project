@@ -1,3 +1,7 @@
+IF DATABASE hackathon EXISTS DROP DATABASE hackathon;
+CREATE DATABASE hackathon;
+USE hackathon;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/

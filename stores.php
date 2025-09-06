@@ -16,7 +16,7 @@ $sql = "SELECT stores.id AS store_id, stores.name AS store_name, users.name AS o
         FROM stores
         JOIN users ON stores.owner_id = users.id
         ORDER BY stores.id ASC";
-$result = $conn->query($sql);
+$result = $pdo->query($sql);
 
 ob_start();
 ?>
@@ -40,7 +40,7 @@ try {
             JOIN users ON stores.owner_id = users.id
             ORDER BY stores.id ASC";
     
-    $stmt = $conn->query($sql); // using PDO connection
+    $stmt = $pdo->query($sql); // using PDO connection
     $stores = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch all rows
 } catch (PDOException $e) {
     die("Error fetching stores: " . $e->getMessage());

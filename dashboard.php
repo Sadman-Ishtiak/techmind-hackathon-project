@@ -6,12 +6,12 @@ if (empty($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
-
+// $conn = new mysqli("localhost", "root", "", "hackathon");
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['user_role'];
 
 // Fetch user name for navbar
-$stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT name, email FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 $_SESSION['user_name'] = $user_data['name'];
@@ -23,7 +23,7 @@ ob_start();
 
 <?php if ($user_role === 'store_owner'): 
     // Fetch store info
-    $stmt = $conn->prepare("SELECT * FROM stores WHERE owner_id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM stores WHERE owner_id = ?");
     $stmt->execute([$user_id]);
     $store = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -40,7 +40,7 @@ ob_start();
 <!-- Products Table -->
 <h3 class="text-xl font-semibold mb-4">My Products</h3>
 <?php
-    $stmt = $conn->prepare("SELECT p.*, i.image AS main_image 
+    $stmt = $pdo->prepare("SELECT p.*, i.image AS main_image 
                             FROM products p 
                             LEFT JOIN product_images pi ON pi.product_id = p.id
                             LEFT JOIN images i ON i.id = pi.image_id
@@ -109,14 +109,14 @@ ob_start();
 <h3 class="text-xl font-semibold mb-4">My Cart</h3>
 <?php
 // Ensure cart exists
-$stmt = $conn->prepare("SELECT cart_id FROM carts WHERE user_id = ?");
+$stmt = $pdo->prepare("SELECT cart_id FROM carts WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$cart) {
-    $stmt = $conn->prepare("INSERT INTO carts (user_id) VALUES (?)");
+    $stmt = $pdo->prepare("INSERT INTO carts (user_id) VALUES (?)");
     $stmt->execute([$user_id]);
-    $cart_id = $conn->lastInsertId();
+    $cart_id = $pdo->lastInsertId();
 } else {
     $cart_id = $cart['cart_id'];
 }
@@ -124,12 +124,12 @@ if (!$cart) {
 // Handle Remove from Cart
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_id'])) {
     $remove_id = (int)$_POST['remove_id'];
-    $stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_item_id = ? AND cart_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM cart_items WHERE cart_item_id = ? AND cart_id = ?");
     $stmt->execute([$remove_id, $cart_id]);
 }
 
 // Fetch cart items
-$stmt = $conn->prepare("SELECT ci.cart_item_id, ci.quantity, p.*, i.image AS main_image
+$stmt = $pdo->prepare("SELECT ci.cart_item_id, ci.quantity, p.*, i.image AS main_image
                         FROM cart_items ci
                         JOIN products p ON p.id = ci.product_id
                         LEFT JOIN product_images pi ON pi.product_id = p.id
