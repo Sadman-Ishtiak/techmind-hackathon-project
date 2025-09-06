@@ -6,9 +6,9 @@ require_once './lib/helpers.php';
 if(isset($_SESSION['user_id'])) {
     // User is already logged in, redirect based on role
     if ($_SESSION['user_role'] === 'admin') {
-        header("Location: admin_dashboard.php");
+        header("Location: index.php");
     } elseif ($_SESSION['user_role'] === 'store_owner') {
-        header("Location: owner_dashboard.php");
+        header("Location: index.php");
     } else {
         header("Location: index.php");
     }

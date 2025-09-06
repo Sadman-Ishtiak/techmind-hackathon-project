@@ -3,9 +3,16 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 
-session_start();
-require_once 'config.php';
 
+session_start();
+
+if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] !== "admin") {
+    header("Location: index.php");
+    exit;
+}
+
+require_once 'config.php';
+$conn = new mysqli("localhost", "root", "", "hackathon");
 
 // Only admin can access
 if (empty($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
