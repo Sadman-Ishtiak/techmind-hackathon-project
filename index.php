@@ -70,7 +70,12 @@ ob_start();
             ");
             $aimg_stmt->execute(['aid' => $a['id']]);
             $aimg_res = $aimg_stmt->fetch(PDO::FETCH_ASSOC);
-            $a_image_url = $aimg_res['image'] ? 'data:image/png;base64,' . base64_encode($aimg_res['image']) : '';
+            if ($aimg_res && isset($aimg_res['image'])) {
+                $a_image_url = 'data:image/png;base64,' . base64_encode($aimg_res['image']);
+            } else {
+                $a_image_url = '';
+            }
+
             ?>
             <div class="border rounded shadow p-4 bg-white">
                 <?php if ($a_image_url): ?>
