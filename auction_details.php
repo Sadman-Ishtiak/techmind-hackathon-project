@@ -52,38 +52,41 @@ $title = $auction['product_name'] . " - JKKNIU Marketplace";
 ob_start();
 ?>
 
-<div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-    <h2 class="text-2xl font-bold mb-4"><?= htmlspecialchars($auction['product_name']) ?></h2>
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-lg rounded-xl p-6 sm:p-8">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4"><?= htmlspecialchars($auction['product_name']) ?></h2>
 
-    <p class="mb-2 text-gray-700"><?= nl2br(htmlspecialchars($auction['description'])) ?></p>
+        <p class="mb-4 text-gray-700 leading-relaxed"><?= nl2br(htmlspecialchars($auction['description'])) ?></p>
 
-    <p class="text-green-700 font-bold">
-        Starting Price: $<?= number_format($auction['minimum_price'], 2) ?>
-    </p>
-    <p class="text-blue-700 font-bold">
-        Current Highest Bid: $<?= number_format($highest_bid > 0 ? $highest_bid : $auction['minimum_price'], 2) ?>
-    </p>
+        <p class="mb-2 text-green-600 font-semibold text-lg">
+            Starting Price: <span class="text-green-800">$<?= number_format($auction['minimum_price'], 2) ?></span>
+        </p>
+        <p class="mb-4 text-blue-600 font-semibold text-lg">
+            Current Highest Bid: <span class="text-blue-800">$<?= number_format($highest_bid > 0 ? $highest_bid : $auction['minimum_price'], 2) ?></span>
+        </p>
 
-    <!-- Countdown Timer -->
-    <p class="text-red-600 font-bold mb-4">
-        Time Remaining: <span id="countdown"></span>
-    </p>
+        <!-- Countdown Timer -->
+        <p class="text-red-600 font-bold mb-4 text-lg">
+            Time Remaining: <span id="countdown" class="text-red-800 font-extrabold"></span>
+        </p>
 
-    <?php if (!empty($message)): ?>
-        <div class="mb-4 p-2 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded">
-            <?= htmlspecialchars($message) ?>
-        </div>
-    <?php endif; ?>
+        <?php if (!empty($message)): ?>
+            <div class="mb-4 p-4 rounded-lg
+                <?= strpos($message, '✅') !== false ? 'bg-green-100 text-green-800 border-green-400' : 'bg-red-100 text-red-800 border-red-400' ?> border-l-4">
+                <?= htmlspecialchars($message) ?>
+            </div>
+        <?php endif; ?>
 
-    <form method="POST" class="mt-4 flex gap-2">
-        <input type="number" name="bid_amount" step="0.01" min="0"
-               placeholder="Enter your bid"
-               class="border rounded px-3 py-2 flex-1" required>
-        <button type="submit"
-                class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-            Place Bid
-        </button>
-    </form>
+        <form method="POST" class="mt-4 flex flex-col sm:flex-row gap-4">
+            <input type="number" name="bid_amount" step="0.01" min="0"
+                   placeholder="Enter your bid amount"
+                   class="border border-gray-300 rounded-lg px-4 py-3 flex-1 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors duration-200" required>
+            <button type="submit"
+                    class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold transition-transform hover:scale-105 hover:bg-indigo-700">
+                Place Bid
+            </button>
+        </form>
+    </div>
 </div>
 
 <!-- Countdown Script -->
@@ -97,7 +100,10 @@ ob_start();
 
         if (distance <= 0) {
             countdownElem.innerHTML = "Auction Ended";
-            document.querySelector("form").style.display = "none"; // disable bidding
+            const form = document.querySelector("form");
+            if (form) {
+                form.style.display = "none";
+            }
             return;
         }
 
@@ -116,3 +122,4 @@ ob_start();
 <?php
 $content = ob_get_clean();
 include './lib/layout.php';
+?>
