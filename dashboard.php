@@ -175,8 +175,17 @@ if ($cart_items):
     </tbody>
 </table>
 </form>
+
 <?php else: ?>
 <p class='text-gray-500'>Your cart is empty.</p>
+<?php endif; ?>
+
+<?php if (!empty($cart_items)): // Only show checkout button if there are items in the cart ?>
+<div class="mt-6 flex justify-end">
+    <a href="checkout.php" class="bg-indigo-600 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-colors duration-200">
+        Proceed to Checkout
+    </a>
+</div>
 <?php endif; ?>
 
 <?php endif; ?>
