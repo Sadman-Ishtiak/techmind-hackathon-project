@@ -1,42 +1,55 @@
 <?php
 session_start();
-require_once './config.php'; // $conn is PDO
+require_once './config.php';
+require_once './lib/helpers.php';
+
+if(isset($_SESSION['user_id'])) {
+    // User is already logged in, redirect based on role
+    if ($_SESSION['user_role'] === 'admin') {
+        header("Location: admin_dashboard.php");
+    } elseif ($_SESSION['user_role'] === 'store_owner') {
+        header("Location: owner_dashboard.php");
+    } else {
+        header("Location: index.php");
+    }
+    exit;
+}
 
 $error = '';
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    verify_csrf();
+
+    $email = strtolower(trim($_POST['email'] ?? ''));
+    $password = $_POST['password'] ?? '';
 
     if (empty($email) || empty($password)) {
         $error = "Please enter both email and password.";
     } else {
-        // PDO uses named or positional placeholders
-        $stmt = $conn->prepare("SELECT id, name, password_hash, role FROM users WHERE email = :email");
-        $stmt->execute(['email' => $email]);
+        $stmt = $pdo->prepare("SELECT id, name, password_hash, role, email_verified FROM users WHERE email = ? LIMIT 1");
+        $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            if (password_verify($password, $user['password_hash'])) {
-                // Set session variables
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['name'];
-                $_SESSION['user_role'] = $user['role'];
-
-                // Redirect based on role
-                if ($user['role'] === 'admin') {
-                    header("Location: admin_dashboard.php");
-                } elseif ($user['role'] === 'store_owner') {
-                    header("Location: owner_dashboard.php");
-                } else {
-                    header("Location: index.php");
-                }
-                exit;
-            } else {
-                $error = "Invalid password.";
-            }
+        if (!$user || !password_verify($password, $user['password_hash'])) {
+            $error = "Invalid email or password.";
+        } elseif ((int)$user['email_verified'] !== 1) {
+            $error = "Please verify your email first.";
         } else {
-            $error = "No user found with this email.";
+            // Set session variables
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_role'] = $user['role'];
+
+            // Role-based redirection
+            if ($user['role'] === 'admin') {
+                header("Location: admin_dashboard.php");
+            } elseif ($user['role'] === 'store_owner') {
+                header("Location: owner_dashboard.php");
+            } else {
+                header("Location: index.php");
+            }
+            exit;
         }
     }
 }
@@ -53,9 +66,10 @@ ob_start();
     <?php endif; ?>
 
     <form method="POST" class="space-y-4">
+        <?= csrf_field() ?>
         <div>
             <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-            <input type="email" name="email" id="email" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <input type="email" name="email" id="email" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
         </div>
 
         <div>
