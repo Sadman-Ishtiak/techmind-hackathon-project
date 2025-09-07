@@ -12,8 +12,14 @@ ob_start();
 
 ?>
 
+<<<<<<< HEAD
 <div class="max-w-7xl mx-auto py-8 text-slate-200">
     <h1 class="text-3xl font-bold mb-6 text-blue-400">Browse by Categories</h1>
+=======
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-gray-900 mb-2">Browse by Categories</h1>
+    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Find what you're looking for by exploring our curated categories.</p>
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
 
     <?php
     // Determine current level and breadcrumbs
@@ -24,21 +30,34 @@ ob_start();
     if ($selected_category) {
         $breadcrumbs[] = ['name' => htmlspecialchars($selected_category), 'link' => '?category=' . urlencode($selected_category)];
         $current_level_heading = "Subcategories in " . htmlspecialchars($selected_category);
+<<<<<<< HEAD
         $back_link_html = '<a href="categories.php" class="text-blue-400 hover:underline flex items-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to Categories</a>';
+=======
+        $back_link_html = '<a href="categories.php" class="text-indigo-600 hover:text-indigo-800 font-semibold flex items-center mb-4 transition-colors duration-200"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to Categories</a>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
     }
     if ($selected_subcategory) {
         $breadcrumbs[] = ['name' => htmlspecialchars($selected_subcategory), 'link' => '?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($selected_subcategory)];
         $current_level_heading = "Subsubcategories in " . htmlspecialchars($selected_subcategory);
+<<<<<<< HEAD
         $back_link_html = '<a href="categories.php?category=' . urlencode($selected_category) . '" class="text-blue-400 hover:underline flex items-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to ' . htmlspecialchars($selected_category) . '</a>';
+=======
+        $back_link_html = '<a href="categories.php?category=' . urlencode($selected_category) . '" class="text-indigo-600 hover:text-indigo-800 font-semibold flex items-center mb-4 transition-colors duration-200"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to ' . htmlspecialchars($selected_category) . '</a>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
     }
     if ($selected_subsubcategory) {
         $breadcrumbs[] = ['name' => htmlspecialchars($selected_subsubcategory), 'link' => '?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($selected_subcategory) . '&subsubcategory=' . urlencode($selected_subsubcategory)];
         $current_level_heading = "Items in " . htmlspecialchars($selected_subsubcategory);
+<<<<<<< HEAD
         $back_link_html = '<a href="categories.php?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($selected_subcategory) . '" class="text-blue-400 hover:underline flex items-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to ' . htmlspecialchars($selected_subcategory) . '</a>';
+=======
+        $back_link_html = '<a href="categories.php?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($selected_subcategory) . '" class="text-indigo-600 hover:text-indigo-800 font-semibold flex items-center mb-4 transition-colors duration-200"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> Back to ' . htmlspecialchars($selected_subcategory) . '</a>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
     }
 
     // Display breadcrumbs
     if (!empty($breadcrumbs)):
+<<<<<<< HEAD
         echo '<nav class="text-sm font-medium text-slate-400 mb-4">';
         echo '<ol class="list-none p-0 inline-flex">';
         echo '<li class="flex items-center"><a href="categories.php" class="text-blue-400 hover:text-blue-500">Categories</a><svg class="flex-shrink-0 mx-2 h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>';
@@ -47,6 +66,16 @@ ob_start();
             if ($index < count($breadcrumbs) - 1) {
                 echo '<a href="' . $crumb['link'] . '" class="text-blue-400 hover:text-blue-500">' . $crumb['name'] . '</a>';
                 echo '<svg class="flex-shrink-0 mx-2 h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>';
+=======
+        echo '<nav class="text-sm font-medium text-gray-500 mb-4">';
+        echo '<ol class="list-none p-0 inline-flex items-center">';
+        echo '<li class="flex items-center"><a href="categories.php" class="text-indigo-600 hover:text-indigo-800 transition-colors duration-200">Categories</a><svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>';
+        foreach ($breadcrumbs as $index => $crumb) {
+            echo '<li class="flex items-center">';
+            if ($index < count($breadcrumbs) - 1) {
+                echo '<a href="' . $crumb['link'] . '" class="text-indigo-600 hover:text-indigo-800 transition-colors duration-200">' . $crumb['name'] . '</a>';
+                echo '<svg class="flex-shrink-0 mx-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
             } else {
                 echo '<span class="text-slate-200">' . $crumb['name'] . '</span>';
             }
@@ -58,7 +87,7 @@ ob_start();
 
     echo $back_link_html; // Display the back link
 
-    echo '<h2 class="text-2xl font-bold mb-6">' . $current_level_heading . '</h2>';
+    echo '<h2 class="text-3xl font-bold mb-6 text-gray-800">' . $current_level_heading . '</h2>';
 
 
     // --- DISPLAY LOGIC ---
@@ -73,9 +102,15 @@ ob_start();
             echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
             foreach ($categories as $cat) {
                 $link = 'categories.php?category=' . urlencode($cat['name']);
+<<<<<<< HEAD
                 echo '<a href="' . $link . '" class="block p-6 bg-slate-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 border border-slate-700 hover:scale-105">';
                 echo '<h3 class="text-xl font-semibold text-blue-400">' . htmlspecialchars($cat['name']) . '</h3>';
                 echo '<p class="text-slate-400 mt-2">Browse items in this category.</p>';
+=======
+                echo '<a href="' . $link . '" class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">';
+                echo '<h3 class="text-xl font-bold text-gray-800">' . htmlspecialchars($cat['name']) . '</h3>';
+                echo '<p class="text-gray-600 mt-2">Browse items in this category.</p>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
                 echo '</a>';
             }
             echo '</div>';
@@ -93,9 +128,15 @@ ob_start();
             echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
             foreach ($subcategories as $sub) {
                 $link = 'categories.php?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($sub['name']);
+<<<<<<< HEAD
                 echo '<a href="' . $link . '" class="block p-6 bg-slate-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 border border-slate-700 hover:scale-105">';
                 echo '<h3 class="text-xl font-semibold text-blue-400">' . htmlspecialchars($sub['name']) . '</h3>';
                 echo '<p class="text-slate-400 mt-2">Explore subcategories or items.</p>';
+=======
+                echo '<a href="' . $link . '" class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">';
+                echo '<h3 class="text-xl font-bold text-gray-800">' . htmlspecialchars($sub['name']) . '</h3>';
+                echo '<p class="text-gray-600 mt-2">Explore subcategories or items.</p>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
                 echo '</a>';
             }
             echo '</div>';
@@ -114,9 +155,15 @@ ob_start();
             echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
             foreach ($subsubcategories as $subsub) {
                 $link = 'categories.php?category=' . urlencode($selected_category) . '&subcategory=' . urlencode($selected_subcategory) . '&subsubcategory=' . urlencode($subsub['name']);
+<<<<<<< HEAD
                 echo '<a href="' . $link . '" class="block p-6 bg-slate-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 border border-slate-700 hover:scale-105">';
                 echo '<h3 class="text-xl font-semibold text-blue-400">' . htmlspecialchars($subsub['name']) . '</h3>';
                 echo '<p class="text-slate-400 mt-2">View items in this sub-sub category.</p>';
+=======
+                echo '<a href="' . $link . '" class="block p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">';
+                echo '<h3 class="text-xl font-bold text-gray-800">' . htmlspecialchars($subsub['name']) . '</h3>';
+                echo '<p class="text-gray-600 mt-2">View items in this sub-sub category.</p>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
                 echo '</a>';
             }
             echo '</div>';
@@ -145,8 +192,13 @@ include './lib/layout.php';
  * @param string|null $subcategory_name
  * @param string|null $subsubcategory_name
  */
+<<<<<<< HEAD
 function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $subcategory_name, ?string $subsubcategory_name) {
     echo '<h3 class="text-xl font-semibold mt-8 mb-4">Products</h3>';
+=======
+function displayProductsAndAuctions(PDO $pdo, string $category_name, string $subcategory_name, ?string $subsubcategory_name) {
+    echo '<h3 class="text-2xl font-bold mt-8 mb-4 text-gray-800">Products</h3>';
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
     $product_sql = "
         SELECT p.*
         FROM products p
@@ -169,7 +221,7 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
     $products = $product_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($products):
-        echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">';
+        echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">';
         foreach ($products as $p):
             $img_stmt = $pdo->prepare("
                 SELECT i.image
@@ -182,6 +234,7 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
             $image_data = $img_res['image'] ?? '';
             $image_url = $image_data ? 'data:image/jpeg;base64,' . $image_data : './assets/placeholder.jpg';
             ?>
+<<<<<<< HEAD
             <div class="bg-slate-800 rounded-xl shadow-lg p-4 transition-all duration-300 hover:shadow-2xl hover:scale-105 flex flex-col">
                 <a href="product_details.php?id=<?= $p['id'] ?>">
                     <?php if ($image_url): ?>
@@ -193,6 +246,19 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
                 <h4 class="font-bold text-lg mt-auto text-blue-400 truncate"><a href="product_details.php?id=<?= $p['id'] ?>" class="hover:underline"><?= htmlspecialchars($p['name']) ?></a></h4>
                 <p class="text-green-400 font-bold text-md">Price: $<?= number_format($p['price'], 2) ?></p>
                 <a href="product_details.php?id=<?= $p['id'] ?>" class="inline-block w-full text-center bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 mt-4">View Details</a>
+=======
+            <div class="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-transform duration-300 hover:scale-105">
+                <a href="product_details.php?id=<?= $p['id'] ?>" class="w-full">
+                    <?php if ($image_url): ?>
+                        <img src="<?= htmlspecialchars($image_url) ?>" class="w-full h-40 object-cover rounded-lg mb-4 shadow-sm" alt="<?= htmlspecialchars($p['name']) ?>">
+                    <?php else: ?>
+                        <div class="w-full h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-500">No Image</div>
+                    <?php endif; ?>
+                </a>
+                <h4 class="font-bold text-lg text-gray-800 mb-2 truncate w-full"><a href="product_details.php?id=<?= $p['id'] ?>" class="hover:text-indigo-600"><?= htmlspecialchars($p['name']) ?></a></h4>
+                <p class="text-green-600 font-extrabold text-xl mb-4">Price: $<?= htmlspecialchars($p['price']) ?></p>
+                <a href="product_details.php?id=<?= $p['id'] ?>" class="inline-block w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold transition-transform hover:scale-105 hover:bg-indigo-700">View Details</a>
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
             </div>
         <?php endforeach; ?>
         </div>
@@ -200,7 +266,7 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
         <p class="text-slate-400">No products found in this category.</p>
     <?php endif; ?>
 
-    <h3 class="text-xl font-semibold mt-8 mb-4">Auctions</h3>
+    <h3 class="text-2xl font-bold mt-8 mb-4 text-gray-800">Auctions</h3>
     <?php
     $auction_sql = "
         SELECT a.*
@@ -224,7 +290,7 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
     $auctions = $auction_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($auctions):
-        echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">';
+        echo '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
         foreach ($auctions as $a):
             $aimg_stmt = $pdo->prepare("
                 SELECT i.image
@@ -237,6 +303,7 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
             $a_image_data = $aimg_res['image'] ?? '';
             $a_image_url = $a_image_data ? 'data:image/jpeg;base64,' . $a_image_data : './assets/placeholder.jpg';
             ?>
+<<<<<<< HEAD
             <div class="bg-slate-800 rounded-xl shadow-lg p-4 transition-all duration-300 hover:shadow-2xl hover:scale-105 flex flex-col">
                 <a href="auction_details.php?id=<?= $a['id'] ?>">
                     <?php if ($a_image_url): ?>
@@ -248,6 +315,19 @@ function displayProductsAndAuctions(PDO $pdo, string $category_name, ?string $su
                 <h4 class="font-bold text-lg mt-auto text-blue-400 truncate"><a href="auction_details.php?id=<?= $a['id'] ?>" class="hover:underline"><?= htmlspecialchars($a['product_name']) ?></a></h4>
                 <p class="text-green-400 font-bold text-md">Starting at: $<?= number_format($a['minimum_price'], 2) ?></p>
                 <a href="auction_details.php?id=<?= $a['id'] ?>" class="inline-block w-full text-center bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 mt-4">View Auction</a>
+=======
+            <div class="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-transform duration-300 hover:scale-105">
+                <a href="auction_details.php?id=<?= $a['id'] ?>" class="w-full">
+                    <?php if ($a_image_url): ?>
+                        <img src="<?= htmlspecialchars($a_image_url) ?>" class="w-full h-40 object-cover rounded-lg mb-4 shadow-sm" alt="<?= htmlspecialchars($a['product_name']) ?>">
+                    <?php else: ?>
+                        <div class="w-full h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-500">No Image</div>
+                    <?php endif; ?>
+                </a>
+                <h4 class="font-bold text-lg text-gray-800 mb-2 truncate w-full"><a href="auction_details.php?id=<?= $a['id'] ?>" class="hover:text-indigo-600"><?= htmlspecialchars($a['product_name']) ?></a></h4>
+                <p class="text-green-600 font-extrabold text-xl mb-4">Starting at: $<?= htmlspecialchars($a['minimum_price']) ?></p>
+                <a href="auction_details.php?id=<?= $a['id'] ?>" class="inline-block w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold transition-transform hover:scale-105 hover:bg-indigo-700">View Auction</a>
+>>>>>>> a8d1043f7a1709163c59375c9b5b325189b71467
             </div>
         <?php endforeach; ?>
         </div>
