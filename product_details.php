@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'add_to_cart') {
-        $message = "<p class='text-green-600'>Added to cart successfully!</p>";
+        $message = "<p class='bg-green-800 border border-green-700 text-green-200 px-4 py-3 rounded-lg relative text-center'>Added to cart successfully!</p>";
     } elseif ($action === 'buy_now') {
         // For 'Buy Now', add to cart and then redirect to checkout
         header("Location: checkout.php");
@@ -89,43 +89,52 @@ $title = htmlspecialchars($product['name']);
 ob_start();
 ?>
 
-<div class="max-w-5xl mx-auto py-8">
-    <?php echo $message; // Display message here ?>
-    <h1 class="text-3xl font-bold mb-4"><?php echo htmlspecialchars($product['name']); ?></h1>
-    <p class="text-gray-600 mb-2">Store: <?php echo htmlspecialchars($product['store_name']); ?> (Owner: <?php echo htmlspecialchars($product['owner_name']); ?>)</p>
-    <p class="text-gray-800 font-semibold mb-4">Price: $<?php echo number_format($product['price'], 2); ?></p>
-    <p class="text-gray-700 mb-6"><?php echo htmlspecialchars($product['description']); ?></p>
+<div class="max-w-5xl mx-auto py-8 px-4 text-slate-200">
+    <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-8">
+        <?php echo $message; // Display message here ?>
+        <h1 class="text-3xl font-bold text-blue-400 mb-2"><?php echo htmlspecialchars($product['name']); ?></h1>
+        <p class="text-slate-400 mb-2">Store: <?php echo htmlspecialchars($product['store_name']); ?> (Owner: <?php echo htmlspecialchars($product['owner_name']); ?>)</p>
+        <p class="text-green-400 font-bold text-2xl mb-4">Price: $<?php echo number_format($product['price'], 2); ?></p>
+        <p class="text-slate-300 mb-6"><?php echo htmlspecialchars($product['description']); ?></p>
 
-    <!-- Product images -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <?php
-        // Using PDO for image fetching
-        $stmt_img = $pdo->prepare("SELECT i.image FROM images i
-                                   JOIN product_images pi ON i.id = pi.image_id
-                                   WHERE pi.product_id = ?");
-        $stmt_img->execute([$product_id]);
-        $img_results = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
+        <!-- Product images -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <?php
+            // Using PDO for image fetching
+            $stmt_img = $pdo->prepare("SELECT i.image FROM images i
+                                       JOIN product_images pi ON i.id = pi.image_id
+                                       WHERE pi.product_id = ?");
+            $stmt_img->execute([$product_id]);
+            $img_results = $stmt_img->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($img_results):
-            foreach ($img_results as $img):
-                // CORRECTED: Use the base64 string directly from the database
-                $base64 = $img['image'];
-        ?>
-            <img class="rounded shadow" src="data:image/png;base64,<?php echo $base64; ?>" alt="Product Image">
-        <?php
-            endforeach;
-        else:
-            echo "<p class='text-gray-500'>No images available.</p>";
-        endif;
-        ?>
+            if ($img_results):
+                foreach ($img_results as $img):
+                    // Use the base64 string directly from the database
+                    $base64 = $img['image'];
+            ?>
+                <img class="rounded-lg shadow border border-slate-700 w-full h-auto object-cover" src="data:image/png;base64,<?php echo $base64; ?>" alt="Product Image">
+            <?php
+                endforeach;
+            else:
+                echo "<p class='text-slate-400 text-center col-span-full'>No images available for this product.</p>";
+            endif;
+            ?>
+        </div>
+
+        <!-- Buy Now / Add to Cart Form -->
+        <form method="POST" class="flex flex-col sm:flex-row gap-4">
+            <input type="number" name="quantity" value="1" min="1" 
+                   class="bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-4 py-3 w-full sm:w-20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200">
+            <button type="submit" name="action" value="buy_now" 
+                    class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full sm:w-auto">
+                Buy Now
+            </button>
+            <button type="submit" name="action" value="add_to_cart" 
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 w-full sm:w-auto">
+                Add to Cart
+            </button>
+        </form>
     </div>
-
-    <!-- Buy Now / Add to Cart Form -->
-    <form method="POST" class="flex gap-4">
-        <input type="number" name="quantity" value="1" min="1" class="border rounded p-2 w-20">
-        <button type="submit" name="action" value="buy_now" class="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition">Buy Now</button>
-        <button type="submit" name="action" value="add_to_cart" class="bg-yellow-500 text-white px-6 py-3 rounded hover:bg-yellow-600 transition">Add to Cart</button>
-    </form>
 </div>
 
 <?php

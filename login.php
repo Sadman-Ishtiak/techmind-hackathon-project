@@ -6,9 +6,9 @@ require_once './lib/helpers.php';
 if(isset($_SESSION['user_id'])) {
     // User is already logged in, redirect based on role
     if ($_SESSION['user_role'] === 'admin') {
-        header("Location: index.php");
+        header("Location: admin_dashboard.php");
     } elseif ($_SESSION['user_role'] === 'store_owner') {
-        header("Location: index.php");
+        header("Location: owner_dashboard.php");
     } else {
         header("Location: index.php");
     }
@@ -54,40 +54,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$title = "Login - JKKNIU Marketplace";
+$title = "Login - Nazrul Bazar";
 ob_start();
 ?>
 
-<div class="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
+<div class="max-w-md mx-auto mt-20 p-6 bg-slate-800 rounded-xl shadow-lg border border-slate-700 text-slate-200">
+    <h1 class="text-2xl font-bold mb-6 text-center text-blue-400">Login</h1>
 
     <?php if($error): ?>
-        <p class="text-red-500 mb-4 text-center"><?= htmlspecialchars($error) ?></p>
+        <p class="bg-red-800 border border-red-700 text-red-200 px-4 py-3 rounded-lg relative mb-6 text-center">
+            <?= htmlspecialchars($error) ?>
+        </p>
     <?php endif; ?>
 
-    <form method="POST" class="space-y-4">
+    <form method="POST" class="space-y-6">
         <?= csrf_field() ?>
         <div>
-            <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-            <input type="email" name="email" id="email" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+            <label for="email" class="block text-slate-400 font-semibold mb-2">Email</label>
+            <input type="email" name="email" id="email" 
+                class="w-full bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" 
+                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
         </div>
 
         <div>
-            <label for="password" class="block text-gray-700 font-semibold mb-2">Password</label>
-            <input type="password" name="password" id="password" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <label for="password" class="block text-slate-400 font-semibold mb-2">Password</label>
+            <input type="password" name="password" id="password" 
+                class="w-full bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
         </div>
 
-        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+        <button type="submit" 
+            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
             Login
         </button>
     </form>
 
-    <p class="mt-4 text-center text-gray-600 text-sm">
-        Don't have an account? <a href="register.php" class="text-blue-500 hover:underline">Register here</a>
+    <p class="mt-6 text-center text-slate-400">
+        Don't have an account? <a href="register.php" class="text-blue-400 hover:underline">Register here</a>
     </p>
 </div>
 
 <?php
 $content = ob_get_clean();
 include './lib/layout.php';
-?>

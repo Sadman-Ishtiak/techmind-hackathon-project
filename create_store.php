@@ -44,17 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $title = "Create Store";
 ob_start();
 ?>
-<div class="max-w-md mx-auto mt-10 p-6 bg-white border rounded-md shadow-md">
-    <h2 class="text-xl font-bold mb-4">Create Your Store</h2>
+<div class="max-w-md mx-auto mt-10 p-6 bg-slate-800 rounded-xl shadow-lg border border-slate-700 text-slate-200">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">Create Your Store</h2>
     <?php if ($message): ?>
-        <p class="text-red-600 mb-4"><?= htmlspecialchars($message) ?></p>
+        <p class="bg-red-800 border border-red-700 text-red-200 px-4 py-3 rounded-lg relative mb-6">
+            <?= htmlspecialchars($message) ?>
+        </p>
     <?php endif; ?>
-    <form method="POST" class="space-y-4">
+    <form method="POST" class="space-y-6">
         <div>
-            <label class="block text-gray-700">Store Name</label>
-            <input type="text" name="store_name" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
+            <label for="store_name" class="block text-slate-400 font-medium mb-1">Store Name</label>
+            <input type="text" id="store_name" name="store_name" class="w-full bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
         </div>
-        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Create Store</button>
+        <button type="submit" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Create Store
+        </button>
     </form>
 </div>
 <?php

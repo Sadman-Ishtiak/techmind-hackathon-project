@@ -25,34 +25,38 @@ $store = $store_result->fetch_assoc();
 $title = "Products of " . htmlspecialchars($store['name']);
 ob_start();
 ?>
+<div class="container mx-auto p-6">
+    <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-8">
+        <h2 class="text-2xl font-bold mb-4 text-blue-400"><?php echo htmlspecialchars($store['name']); ?></h2>
+        <p class="text-slate-400 mb-6">Products available in this store.</p>
 
-<h2 class="text-2xl font-bold mb-4"><?php echo htmlspecialchars($store['name']); ?></h2>
-<p class="text-gray-600 mb-6">Products available in this store.</p>
+        <?php
+        // Fetch products for this store
+        $product_sql = "SELECT * FROM products WHERE store_id = $store_id";
+        $product_result = $conn->query($product_sql);
+        ?>
 
-<?php
-// Fetch products for this store
-$product_sql = "SELECT * FROM products WHERE store_id = $store_id";
-$product_result = $conn->query($product_sql);
-?>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <?php if ($product_result->num_rows > 0): ?>
-        <?php while ($product = $product_result->fetch_assoc()): ?>
-            <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition duration-300">
-                <h3 class="text-lg font-semibold mb-2"><?php echo htmlspecialchars($product['name']); ?></h3>
-                <p class="text-gray-500 mb-2">Price: $<?php echo number_format($product['price'], 2); ?></p>
-                <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($product['description']); ?></p>
-                <a href="product_details.php?id=<?php echo $product['id']; ?>"
-                   class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                    View Details
-                </a>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p class="col-span-full text-center text-gray-500">No products found in this store.</p>
-    <?php endif; ?>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <?php if ($product_result->num_rows > 0): ?>
+                <?php while ($product = $product_result->fetch_assoc()): ?>
+                    <div class="bg-slate-900 rounded-lg shadow-lg border border-slate-700 p-6 hover:shadow-xl transition duration-300">
+                        <h3 class="text-lg font-semibold mb-2 text-blue-400"><?php echo htmlspecialchars($product['name']); ?></h3>
+                        <p class="text-slate-400 mb-2">Price: $<?php echo number_format($product['price'], 2); ?></p>
+                        <p class="text-slate-500 mb-4"><?php echo htmlspecialchars($product['description']); ?></p>
+                        <a href="product_details.php?id=<?php echo $product['id']; ?>"
+                           class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            View Details
+                        </a>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p class="col-span-full text-center text-slate-400">No products found in this store.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
 <?php
 $content = ob_get_clean();
 include './lib/layout.php';
+?>

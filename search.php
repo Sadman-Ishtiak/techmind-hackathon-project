@@ -1,6 +1,6 @@
 <?php
 session_start();
-$title = "Search - JKKNIU Marketplace";
+$title = "Search - Nazrul Bazar";
 require './config.php'; // Your PDO config
 
 ob_start();

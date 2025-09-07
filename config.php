@@ -11,7 +11,7 @@ define('DB_PASS', '');
 // ===== APP CONFIG ====
 // =====================
 define('APP_NAME', 'Techmind Hackathon');
-define('BASE_URL', 'http://localhost/techmind'); // no trailing slash
+define('BASE_URL', 'http://localhost/Techminds'); // no trailing slash
 
 // =====================
 // ===== Gmail SMTP ====

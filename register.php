@@ -54,60 +54,62 @@ $title = "Register - " . APP_NAME;
 ob_start();
 ?>
 
-<div class="max-w-md mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-6 text-center">Register</h1>
+<div class="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 px-8 py-6">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-400">Register</h1>
 
-    <?php if ($sent): ?>
-        <div class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
-            We've sent a verification link to <strong><?= e($_POST['email']) ?></strong>. Please check your inbox.
-        </div>
-    <?php endif; ?>
+        <?php if ($sent): ?>
+            <div class="bg-emerald-900 text-emerald-300 px-4 py-3 rounded-lg mb-4 border border-emerald-700">
+                We've sent a verification link to <strong><?= e($_POST['email']) ?></strong>. Please check your inbox.
+            </div>
+        <?php endif; ?>
 
-    <?php if ($errors): ?>
-        <div class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
-            <ul class="list-disc pl-5">
-                <?php foreach ($errors as $error): ?>
-                    <li><?= htmlspecialchars($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+        <?php if ($errors): ?>
+            <div class="bg-red-900 text-red-400 px-4 py-3 rounded-lg mb-4 border border-red-700">
+                <ul class="list-disc pl-5">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-    <form method="POST" class="bg-white shadow-md rounded px-8 py-6 space-y-4">
-        <?= csrf_field() ?>
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Full Name</label>
-            <input type="text" name="name" value="<?= e($_POST['name'] ?? '') ?>" 
-                   class="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
-        </div>
+        <form method="POST" class="space-y-4">
+            <?= csrf_field() ?>
+            <div>
+                <label class="block text-slate-400 font-medium mb-2">Full Name</label>
+                <input type="text" name="name" value="<?= e($_POST['name'] ?? '') ?>" 
+                       class="border border-slate-700 rounded-lg w-full px-4 py-3 bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
+            </div>
 
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Email</label>
-            <input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" 
-                   class="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
-        </div>
+            <div>
+                <label class="block text-slate-400 font-medium mb-2">Email</label>
+                <input type="email" name="email" value="<?= e($_POST['email'] ?? '') ?>" 
+                       class="border border-slate-700 rounded-lg w-full px-4 py-3 bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
+            </div>
 
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Password (min 8)</label>
-            <input type="password" name="password" 
-                   class="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
-        </div>
+            <div>
+                <label class="block text-slate-400 font-medium mb-2">Password (min 8)</label>
+                <input type="password" name="password" 
+                       class="border border-slate-700 rounded-lg w-full px-4 py-3 bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
+            </div>
 
-        <div>
-            <label class="block text-gray-700 font-medium mb-2">Confirm Password</label>
-            <input type="password" name="password2" 
-                   class="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
-        </div>
+            <div>
+                <label class="block text-slate-400 font-medium mb-2">Confirm Password</label>
+                <input type="password" name="password2" 
+                       class="border border-slate-700 rounded-lg w-full px-4 py-3 bg-slate-900 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200" required>
+            </div>
 
-        <button type="submit" 
-                class="bg-indigo-600 text-white w-full px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
-            Register
-        </button>
-    </form>
+            <button type="submit" 
+                    class="bg-blue-600 text-white w-full px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Register
+            </button>
+        </form>
 
-    <p class="mt-4 text-sm text-gray-600 text-center">
-        Already have an account? <a href="login.php" class="underline text-indigo-600">Login</a>
-    </p>
+        <p class="mt-4 text-sm text-slate-400 text-center">
+            Already have an account? <a href="login.php" class="underline text-blue-400 hover:text-blue-300">Login</a>
+        </p>
+    </div>
 </div>
 
 <?php
